@@ -3,12 +3,6 @@
 #include <iostream>
 #include <sstream>
 
-static void BM_StringCreation(benchmark::State& state) {
-  for (auto _ : state)
-    std::string empty_string;
-}
-// Register the function as a benchmark
-BENCHMARK(BM_StringCreation);
 
 static void form(benchmark::State& state){
     std::string f = "2+2";
