@@ -9,7 +9,7 @@
 #include <cstdint>
 
 
-namespace DP {
+namespace DP{
     using RollFormulaError = std::runtime_error;
 
     class RollFormula;
