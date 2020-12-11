@@ -2,14 +2,14 @@
 #include <random>
 #include <algorithm>
 
-namespace DP {
+namespace DP{
 
-    std::int64_t RollFormula::evaluate() const {
+    std::int64_t RollFormula::evaluate() const{
         if (formula.index() == 0){
             RollSequence RS = std::get<RollSequence>(formula);
-            for (std::size_t i = 0; i < RS.size(); i++) {
+            for (std::size_t i = 0; i < RS.size(); i++){
                 if (RS[i].formula.index() == 2){
-                    if (std::get<RollOperation>(RS[i].formula) == RollOperation::recast) {
+                    if (std::get<RollOperation>(RS[i].formula) == RollOperation::recast){
                         modification = {std::get<RollOperation>(RS[i].formula), 0};
                         RS.erase(RS.begin() + i, RS.begin() + i + 1);
                         i--;
@@ -29,12 +29,12 @@ namespace DP {
                         modification = {std::get<RollOperation>(RS[i].formula), std::get<std::int64_t>(RS[i - 1].formula)};
                         RS.erase(RS.begin() + i - 1, RS.begin() + i + 1);
                         i -= 2;
-                    }else {
+                    }else{
                         if (RS.size() < 3)
                             throw RollFormulaError("[ERROR w/ operation] not enough arguments");
-                        try {
+                        try{
                             RS[i - 2].formula = (int) RS[i](RS[i - 2], RS[i - 1]);
-                        } catch (RollFormulaError &e) {
+                        } catch (RollFormulaError &e){
                             return 0;
                         }
                     }
@@ -46,7 +46,7 @@ namespace DP {
             return 0;
         }
     }
-    std::int64_t RollFormula::operator ()(const RollFormula &l, const RollFormula &r) const {
+    std::int64_t RollFormula::operator ()(const RollFormula &l, const RollFormula &r) const{
         if (l.formula.index() == 2 || r.formula.index() == 2)
             throw RollFormulaError("[ERROR w/ operand] left or right operand is an operation");
         switch (std::get<RollOperation>(formula)) {
@@ -67,26 +67,26 @@ namespace DP {
                 std::vector<std::int64_t> rolls;
                 std::int64_t countOfRoll = l.evaluate();
                 std::int64_t resultOfRoll;
-                for (std::size_t i = 0; i < countOfRoll; i++) {
+                for (std::size_t i = 0; i < countOfRoll; i++){
                     resultOfRoll = gen(randEngine);
                     if (modification.operation == RollOperation::recast && resultOfRoll == r.evaluate())
                         countOfRoll++;
-                    rolls.insert(std::find_if(rolls.begin(), rolls.end(), [resultOfRoll](auto val){ return resultOfRoll <= val; }), resultOfRoll);
+                    rolls.insert(std::find_if(rolls.begin(), rolls.end(), [resultOfRoll](auto val){return resultOfRoll <= val;}), resultOfRoll);
                 }
-                if (modification.operation == RollOperation::mZ) {
-                    for (int i = 0; i < rolls.size() && i < modification.value; i++) {
+                if (modification.operation == RollOperation::mZ){
+                    for (int i = 0; i < rolls.size() && i < modification.value; i++){
                         resultOfRoll += rolls[i];
                     }
                     modification.operation = RollOperation::woMod;
                     return resultOfRoll;
-                } else if (modification.operation == RollOperation::MZ) {
-                    for (int i = 1; i <= modification.value; i++) {
+                }else if (modification.operation == RollOperation::MZ){
+                    for (int i = 1; i <= modification.value; i++){
                         resultOfRoll += rolls[rolls.size() - i];
                     }
                     modification.operation = RollOperation::woMod;
                     return resultOfRoll;
-                } else {
-                    for (int i = 0; i < rolls.size(); i++) {
+                }else{
+                    for (int i = 0; i < rolls.size(); i++){
                         resultOfRoll += rolls[i];
                     }
                     modification.operation = RollOperation::woMod;
