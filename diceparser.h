@@ -29,7 +29,7 @@ namespace DP {
         woMod = 's'
     };
 
-    class RollFormula {
+    class RollFormula{
     public:
         struct FormulaModification{
             RollOperation operation;
