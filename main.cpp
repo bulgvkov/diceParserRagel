@@ -11,14 +11,14 @@ static void form(benchmark::State& state){
         std::stringstream sstr(f);
         try{
             sstr >> roller;
-        } catch(std::runtime_error& e) {
+        }catch(std::runtime_error& e){
             std::cout << roller;
             std::cerr<<e.what()<<'\n';
         }
         std::cout << roller;
         try{
             std::cout << roller.evaluate()<<'\n';
-        } catch(std::runtime_error& e){
+        }catch(std::runtime_error& e){
             std::cerr<<e.what()<<'\n';
         }
     }
