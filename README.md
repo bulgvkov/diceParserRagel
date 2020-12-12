@@ -9,3 +9,5 @@
 ## Сборка
 
 Для сборки рагельских файлов: ragel -o < output file > < input file >
+
+## Benchmark
