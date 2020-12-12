@@ -8,16 +8,16 @@ namespace DP{
             throw RollFormulaError("[ERROR w/ formula] incorrect formula");
             fret;
         }
-        action leftSmile{
+        action leftBr{
             operation.push(static_cast<RollOperation>(fc));
         }
-        action rightSmile{
+        action rightBr{
             numPut = true;
             char topOfStack = operation.empty() ? ' ' : operation.top();
             if (operation.empty()) fcall errors;
             else if (operation.top() == '(')
             operation.pop();
-            else {
+            else{
                 RollFormula rollFormula(static_cast<RollOperation>(topOfStack));
                 rf.addEnd(rollFormula);
                 operation.pop();
@@ -94,10 +94,10 @@ namespace DP{
         action end{
             if (operation.empty()){}
             else{
-                if (operation.top() == '(') {
+                if (operation.top() == '('){
                     fcall errors;
-                } else {
-                    while (!operation.empty()) {
+                }else{
+                    while (!operation.empty()){
                         RollFormula rollFormula(operation.top());
                         rf.addEnd(rollFormula);
                         operation.pop();
@@ -110,16 +110,16 @@ namespace DP{
         errors := []
         $~error;
         
-        smiles = ('(' @leftSmile | ')' @rightSmile);
+        brackets = ('(' @leftBr | ')' @rightBr);
         operations = ([\-\+] @operationLvl6 | [\*\/\%] @operationLvl5 | 'd' @operationD);
         numbers = ([1-9][0-9]**) @digitOfNumber %end;
         modifications =([mM] @operationMm |'!' @operationExclamationMark);
         eol = [\n\0] $end;
-        main := ((smiles | operations | numbers | modifications | ' ')** . eol) @!error;
+        main := ((brackets | operations | numbers | modifications | ' ')** . eol) @!error;
     }%%
     %% write data;
 
-    std::istream &operator>>(std::istream &in, RollFormula &rf) {
+    std::istream &operator>>(std::istream &in, RollFormula &rf){
         std::stack<RollOperation> operation = std::stack<RollOperation>();
         bool numPut = false;
         int intVal = 0;
@@ -130,7 +130,7 @@ namespace DP{
 
         %% write init;
 
-        try {
+        try{
             std::string str;
             std::getline(in, str);
             const char *p = str.c_str();
@@ -140,7 +140,7 @@ namespace DP{
 
             %% write exec;
 
-        } catch (RollFormulaError &e) {
+        }catch (RollFormulaError &e){
             throw e;
         }
         while (!operation.empty())
