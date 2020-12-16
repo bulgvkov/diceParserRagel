@@ -63,7 +63,7 @@ namespace DP{
                 out << std::get<1>(rf.formula);
             }
             else{
-                out << std::get<2>(rf.formula);
+                out << (char) std::get<2>(rf.formula);
             }
             return out;
         }
