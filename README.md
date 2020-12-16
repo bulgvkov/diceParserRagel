@@ -12,6 +12,9 @@
 
 ## Benchmark
 
+Формула: 2 + 2<br/>
+![Teст 1: 2 + 2](https://github.com/bulgvkov/diceParserRagel/blob/main/test1.png)
+
 Формула: (3d6! + 5) * 2 + (1d6)d3M1<br/>
 ![Тест 2: (3d6! + 5)*2 + (1d6)d3M1](https://github.com/bulgvkov/diceParserRagel/blob/main/test2.png)
 
