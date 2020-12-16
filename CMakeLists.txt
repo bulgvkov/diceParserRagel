@@ -12,8 +12,6 @@ add_executable(${PROJECT_NAME} main.cpp diceparser.cpp diceparser.h diceparser_r
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_EXTENSIONS OFF)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
-include_directories(${BENCHMARK_INCLUDE_DIRS})
-
 target_link_libraries(${PROJECT_NAME} benchmark::benchmark)
 
 
