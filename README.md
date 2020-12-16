@@ -12,5 +12,7 @@
 
 ## Benchmark
 
-Формула: (3d6! + 5)*2 + (1d6)d3M1<br/>
+Формула: (3d6! + 5) * 2 + (1d6)d3M1<br/>
 ![Test 1: (3d6! + 5)*2 + (1d6)d3M1](https://github.com/bulgvkov/diceParserRagel/blob/main/test1.png)
+
+Формула: (20d100!)d((2 + 2 * 2)d30M3) - (d20d30m15d((10 + 4d8!%9)/3 + 1))<br/>
