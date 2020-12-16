@@ -78,7 +78,4 @@ namespace DP{
 }
 
 
-
-
-
 #endif // DICEPARSER_H
