@@ -10,12 +10,10 @@ namespace DP{
         }
         action leftBracket{
             operation.push(static_cast<RollOperation>(fc));
-            std::cout << "leftBracket()\n";
         }
         action rightBracket{
             numPut = true;
             char topOfStack = operation.empty() ? ' ' : operation.top();
-            std::cout << "rightBracket()\n";
             if (operation.empty()) fcall errors;
             else if (operation.top() == '(')
             operation.pop();
@@ -28,12 +26,10 @@ namespace DP{
         }
         action digitOfNumber{
             intVal = intVal * 10 + (fc - '0');
-            std::cout << "digitOfNumber(" << fc << ")\n";
         } 
         action endOfNumber{
             RollFormula rollFormula(intVal);
             rf.addEnd(intVal);
-            std::cout << "endOfNumber(" << intVal << ")\n";
             intVal = 0;
             numPut = true;
         }
@@ -68,7 +64,7 @@ namespace DP{
         action operationD{
             char topOfStack = operation.empty() ? ' ' : operation.top();
             if (operation.empty() || topOfStack == '+' || topOfStack == '-' || topOfStack == '*' || topOfStack == '/' || topOfStack == '(' || topOfStack == '%'){
-                if (!numPut) {
+                if (!numPut){
                     RollFormula rollFormula(1);
                     rf.addEnd(rollFormula);
                     numPut = false;
@@ -84,7 +80,6 @@ namespace DP{
         }
         action operationMm{
             char topOfStack = operation.empty() ? ' ' : operation.top();
-            std::cout << "operationMm()\n";
             if (topOfStack == 'd' && !exclamationMark){
                 operation.push(static_cast<RollOperation>(fc));
             }
@@ -102,7 +97,7 @@ namespace DP{
             if (!operation.empty()){
                 if (operation.top() == '('){
                     fcall errors;
-                } else {
+                }else{
                     while (!operation.empty()){
                         RollFormula rollFormula(operation.top());
                         rf.addEnd(rollFormula);
@@ -136,7 +131,7 @@ namespace DP{
 
         %% write init;
 
-        tr{
+        try{
             std::string str;
             std::getline(in, str);
             const char *p = str.c_str();
