@@ -5,20 +5,18 @@
 
 
 static void form(benchmark::State& state){
-    std::string f = "2+2";
+    std::string enteredFormula = "(3d6! + 5)*2 + (1d6)d3M1";
     for (auto _ : state){
         DP::RollFormula roller;
-        std::stringstream sstr(f);
+        std::stringstream sstr(enteredFormula);
         try{
             sstr >> roller;
-        }catch(std::runtime_error& e){
-            std::cout << roller;
+        } catch(std::runtime_error& e) {
             std::cerr<<e.what()<<'\n';
         }
-        std::cout << roller;
         try{
-            std::cout << roller.evaluate()<<'\n';
-        }catch(std::runtime_error& e){
+            roller.evaluate();
+        } catch(std::runtime_error& e){
             std::cerr<<e.what()<<'\n';
         }
     }
@@ -26,5 +24,3 @@ static void form(benchmark::State& state){
 BENCHMARK(form);
 
 BENCHMARK_MAIN();
-
-
