@@ -11,7 +11,7 @@ static void form(benchmark::State& state){
         std::stringstream sstr(enteredFormula);
         try{
             sstr >> roller;
-        } catch(std::runtime_error& e) {
+        } catch(std::runtime_error& e){
             std::cerr<<e.what()<<'\n';
         }
         try{
