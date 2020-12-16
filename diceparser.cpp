@@ -33,13 +33,19 @@ namespace DP{
                         if (RS.size() < 3)
                             throw RollFormulaError("[ERROR w/ operation] not enough arguments");
                         try{
-                            RS[i - 2].formula = (int) RS[i](RS[i - 2], RS[i - 1]);
+                            RS[i - 2].formula = (std::int64_t) RS[i](RS[i - 2], RS[i - 1]);
                         } catch (RollFormulaError &e){
                             return 0;
                         }
+                        RS.erase(RS.begin() + i - 1, RS.begin() + i + 1);
+                        i -= 2;
                     }
                 }
             }
+            if (RS.size() > 1)
+                throw RollFormulaError(
+                        "[ERROR w/ formula] left > 1 elements after running");
+            return std::get<std::int64_t>(RS[0].formula);
         }else if (formula.index() == 1)
             return std::get<1>(formula);
         else{
@@ -49,7 +55,7 @@ namespace DP{
     std::int64_t RollFormula::operator ()(const RollFormula &l, const RollFormula &r) const{
         if (l.formula.index() == 2 || r.formula.index() == 2)
             throw RollFormulaError("[ERROR w/ operand] left or right operand is an operation");
-        switch (std::get<RollOperation>(formula)) {
+        switch (std::get<RollOperation>(formula)){
             case RollOperation::multiplication:
                 return l.evaluate() * r.evaluate();
             case RollOperation::division:
@@ -80,7 +86,7 @@ namespace DP{
                     modification.operation = RollOperation::woMod;
                     return resultOfRoll;
                 }else if (modification.operation == RollOperation::MZ){
-                    for (int i = 1; i <= modification.value; i++){
+                    for (int i = 1; i < rolls.size() && i <= modification.value; i++){
                         resultOfRoll += rolls[rolls.size() - i];
                     }
                     modification.operation = RollOperation::woMod;
