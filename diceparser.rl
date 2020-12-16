@@ -8,16 +8,18 @@ namespace DP{
             throw RollFormulaError("[ERROR w/ formula] incorrect formula");
             fret;
         }
-        action leftBr{
+        action leftBracket{
             operation.push(static_cast<RollOperation>(fc));
+            std::cout << "leftBracket()\n";
         }
-        action rightBr{
+        action rightBracket{
             numPut = true;
             char topOfStack = operation.empty() ? ' ' : operation.top();
+            std::cout << "rightBracket()\n";
             if (operation.empty()) fcall errors;
             else if (operation.top() == '(')
             operation.pop();
-            else{
+            else {
                 RollFormula rollFormula(static_cast<RollOperation>(topOfStack));
                 rf.addEnd(rollFormula);
                 operation.pop();
@@ -26,10 +28,12 @@ namespace DP{
         }
         action digitOfNumber{
             intVal = intVal * 10 + (fc - '0');
+            std::cout << "digitOfNumber(" << fc << ")\n";
         } 
         action endOfNumber{
             RollFormula rollFormula(intVal);
             rf.addEnd(intVal);
+            std::cout << "endOfNumber(" << intVal << ")\n";
             intVal = 0;
             numPut = true;
         }
@@ -38,6 +42,7 @@ namespace DP{
             char topOfStack = operation.empty() ? ' ' : operation.top();
             if (operation.empty() || topOfStack == '+' || topOfStack == '-' || topOfStack == '(' ){
                 operation.push(static_cast<RollOperation>(fc));
+                exclamationMark = false;
             }
             else{
                 RollFormula rollFormula(static_cast<RollOperation>(topOfStack));
@@ -51,6 +56,7 @@ namespace DP{
             char topOfStack = operation.empty() ? ' ' : operation.top();
             if (operation.empty() || topOfStack == '(' ){
                 operation.push(static_cast<RollOperation>(fc));
+                exclamationMark = false;
             }
             else{
                 RollFormula rollFormula(static_cast<RollOperation>(topOfStack));
@@ -78,6 +84,7 @@ namespace DP{
         }
         action operationMm{
             char topOfStack = operation.empty() ? ' ' : operation.top();
+            std::cout << "operationMm()\n";
             if (topOfStack == 'd' && !exclamationMark){
                 operation.push(static_cast<RollOperation>(fc));
             }
@@ -86,17 +93,16 @@ namespace DP{
         action operationExclamationMark{
             char topOfStack = operation.empty() ? ' ' : operation.top();
             if (topOfStack == 'd'){
-                RollFormula rollFormula(static_cast<RollFormula>(fc));
+                RollFormula rollFormula(static_cast<RollOperation>(fc));
                 rf.addEnd(rollFormula);
                 exclamationMark = true;
-            } else fcall errors;
+            }else fcall errors;
         }
         action end{
-            if (operation.empty()){}
-            else{
+            if (!operation.empty()){
                 if (operation.top() == '('){
                     fcall errors;
-                }else{
+                } else {
                     while (!operation.empty()){
                         RollFormula rollFormula(operation.top());
                         rf.addEnd(rollFormula);
@@ -110,9 +116,9 @@ namespace DP{
         errors := []
         $~error;
         
-        brackets = ('(' @leftBr | ')' @rightBr);
+        brackets = ('(' @leftBracket | ')' @rightBracket);
         operations = ([\-\+] @operationLvl6 | [\*\/\%] @operationLvl5 | 'd' @operationD);
-        numbers = ([1-9][0-9]**) @digitOfNumber %end;
+        numbers = ([1-9][0-9]**) @digitOfNumber %endOfNumber;
         modifications =([mM] @operationMm |'!' @operationExclamationMark);
         eol = [\n\0] $end;
         main := ((brackets | operations | numbers | modifications | ' ')** . eol) @!error;
@@ -130,7 +136,7 @@ namespace DP{
 
         %% write init;
 
-        try{
+        tr{
             std::string str;
             std::getline(in, str);
             const char *p = str.c_str();
