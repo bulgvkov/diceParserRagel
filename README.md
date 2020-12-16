@@ -13,4 +13,5 @@
 ## Benchmark
 
 Формула: (3d6! + 5)*2 + (1d6)d3M1<br/>
+![]https://github.com/bulgvkov/diceParserRagel/blob/main/test1.png
 
