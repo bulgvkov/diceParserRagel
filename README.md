@@ -13,5 +13,4 @@
 ## Benchmark
 
 Формула: (3d6! + 5)*2 + (1d6)d3M1<br/>
-![Test 1: (3d6! + 5)*2 + (1d6)d3M1]https://www.google.com/search?q=caw&safe=strict&sxsrf=ALeKk02aY6CKd5u84ZJXCkj3RlJ9j8DqAA:1608148304964&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjHl9qjo9PtAhXwtYsKHexxAfoQ_AUoAXoECAYQAw&biw=1920&bih=937#imgrc=SSJoJeY-sk10dM
-
+![Test 1: (3d6! + 5)*2 + (1d6)d3M1](https://github.com/bulgvkov/diceParserRagel/blob/main/test1.png)
