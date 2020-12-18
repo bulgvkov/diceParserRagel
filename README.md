@@ -8,6 +8,10 @@
 
 Использован генератор парсеров ragel: http://www.colm.net/open-source/ragel/
 
+## Как это работает
+
+![схема автоматов парсера](https://github.com/bulgvkov/diceParserRagel/blob/main/schemeOfParser.png)
+
 ## Benchmark
 
 Формула: 2 + 2<br/>
