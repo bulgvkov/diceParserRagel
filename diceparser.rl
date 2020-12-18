@@ -9,6 +9,7 @@ namespace DP{
             fret;
         }
         action leftBracket{
+            numPut = true;
             operation.push(static_cast<RollOperation>(fc));
         }
         action rightBracket{
@@ -17,7 +18,7 @@ namespace DP{
             if (operation.empty()) fcall errors;
             else if (operation.top() == '(')
             operation.pop();
-            else {
+            else{
                 RollFormula rollFormula(static_cast<RollOperation>(topOfStack));
                 rf.addEnd(rollFormula);
                 operation.pop();
