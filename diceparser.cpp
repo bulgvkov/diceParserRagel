@@ -3,7 +3,6 @@
 #include <algorithm>
 
 namespace DP{
-
     std::int64_t RollFormula::evaluate() const{
         if (formula.index() == 0){
             RollSequence RS = std::get<RollSequence>(formula);
@@ -35,7 +34,7 @@ namespace DP{
                         try{
                             RS[i - 2].formula = (std::int64_t) RS[i](RS[i - 2], RS[i - 1]);
                         } catch (RollFormulaError &e){
-                            return 0;
+                            throw e;
                         }
                         RS.erase(RS.begin() + i - 1, RS.begin() + i + 1);
                         i -= 2;
@@ -49,7 +48,7 @@ namespace DP{
         }else if (formula.index() == 1)
             return std::get<1>(formula);
         else{
-            return 0;
+            throw RollFormulaError("[ERROR w/ evaluate] trying to evaluate single operation");
         }
     }
     std::int64_t RollFormula::operator ()(const RollFormula &l, const RollFormula &r) const{
@@ -83,21 +82,17 @@ namespace DP{
                     for (int i = 0; i < rolls.size() && i < modification.value; i++){
                         resultOfRoll += rolls[i];
                     }
-                    modification.operation = RollOperation::woMod;
-                    return resultOfRoll;
                 }else if (modification.operation == RollOperation::MZ){
                     for (int i = 1; i < rolls.size() && i <= modification.value; i++){
                         resultOfRoll += rolls[rolls.size() - i];
-                    }
-                    modification.operation = RollOperation::woMod;
-                    return resultOfRoll;
+                    }    
                 }else{
                     for (int i = 0; i < rolls.size(); i++){
                         resultOfRoll += rolls[i];
                     }
-                    modification.operation = RollOperation::woMod;
-                    return resultOfRoll;
                 }
+                modification.operation = RollOperation::woMod;
+                    return resultOfRoll;
         }
         return 0;
     }
